@@ -1,31 +1,39 @@
+import { Model } from "mongoose"
+
 // for the fullname data
-export interface UserName {
+export interface IUserName {
   firstName: string
   lastName: string
 }
 
-export interface UserAddress {
+export interface IUserAddress {
   street: string
   city: string
   country: string
 }
 
-export interface UserOrder {
+export interface IUserOrder {
   productName: string
   price: number
   quantity: number
 }
 
 // interface for the user
-export interface User {
+export interface IUser {
   userId: number
   username: string
   password: string
-  fullName: UserName
+  fullName: IUserName
   age: number
   email: string
   isActive: boolean
   hobbies: string[]
-  address: UserAddress
-  orders: UserOrder[]
+  address: IUserAddress
+  orders: IUserOrder[]
 }
+
+export interface UserMethods {
+  isUserExists(userId: number): Promise<IUser | null>
+}
+
+export type UserModel = Model<IUser, Record<string, never>, UserMethods>
