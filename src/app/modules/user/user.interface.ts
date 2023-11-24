@@ -1,4 +1,4 @@
-import { Model } from "mongoose"
+import { Model } from 'mongoose'
 
 // for the fullname data
 export interface IUserName {
@@ -29,11 +29,14 @@ export interface IUser {
   isActive: boolean
   hobbies: string[]
   address: IUserAddress
-  orders: IUserOrder[]
+  orders?: IUserOrder[]
+  isDeleted?: boolean
 }
 
 export interface UserMethods {
+  /* eslint-disable no-unused-vars */
   isUserExists(userId: number): Promise<IUser | null>
+  /* eslint-enable no-unused-vars */
 }
 
 export type UserModel = Model<IUser, Record<string, never>, UserMethods>
