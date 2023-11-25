@@ -72,6 +72,32 @@ const getOrders = async (req: Request, res: Response) => {
   }
 }
 
+const totalPrice = async (req: Request, res: Response) => {
+  try {
+    const result = await UserServices.getOrdersFromDB()
+
+    const total = result[0]?.orders.reduce((acc, order) => {
+      return acc + order.price * order.quantity;
+    }, 0);
+
+    //sending response
+    res.status(200).json({
+      success: true,
+      message: "Total price calculated successfully!",
+      data: total,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'No Price found!',
+      error: {
+        code: 500,
+        description: 'No Price found!',
+      },
+    })
+  }
+}
+
 const getSinglelUsers = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params
@@ -180,6 +206,7 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getOrders,
+  totalPrice,
   getSinglelUsers,
   updateUser,
   addProduct,

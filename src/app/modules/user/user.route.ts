@@ -9,8 +9,11 @@ router.post('/', UserControllers.createUser)
 // get all users
 router.get('/', UserControllers.getAllUsers)
 
-// retrive
+// retrive orders
 router.get('/:userId/orders', UserControllers.getOrders)
+
+// calculate total
+router.get('/:userId/orders/total-price', UserControllers.totalPrice)
 
 // get single user
 router.get('/:userId', UserControllers.getSinglelUsers)
