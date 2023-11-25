@@ -22,6 +22,26 @@ const getSingleUsersFromDB = async (userId: number) => {
   return result
 }
 
+const updateSingleUserFromDB = async (user: IUser, userId: number) => {
+  const userInstace = new User({ userId })
+  const userExists =  userInstace.isUserExists(userId);
+  if(!userExists) return null
+
+  const result = await User.findOneAndUpdate({userId}, user)
+  return result;
+}
+
+const addProductInOrderDB = async (user, userId: number) => {
+  const userInstace = new User({ userId })
+  const userExists =  userInstace.isUserExists(userId);
+  if(!userExists) return null
+
+  const result = await User.findOne({userId})
+  result?.orders?.push(user);
+  await result?.save();
+  return result;
+}
+
 const deleteUserFromDB = async (userId: number) => {
   const userInstance = new User({ userId })
   const userExists = userInstance.isUserExists(userId)
@@ -36,5 +56,7 @@ export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUsersFromDB,
+  updateSingleUserFromDB,
+  addProductInOrderDB,
   deleteUserFromDB,
 }

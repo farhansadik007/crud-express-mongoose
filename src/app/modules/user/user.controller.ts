@@ -75,6 +75,61 @@ const getSinglelUsers = async (req: Request, res: Response) => {
   }
 }
 
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { user: userData } = req.body
+    const { userId: id } = req.params
+
+    // call service functions to send data
+    const result = await UserServices.updateSingleUserFromDB(userData, Number(id))
+
+    //eslint-disable-next-line 
+    const {_id, userId, password, hobbies, orders, isActive, isDeleted,...rest} = result._doc;
+    /* eslint-enable no-var */
+    //sending response
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: rest,
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error: {
+        code: 500,
+        description: 'Something went wrong!',
+      },
+    })
+  }
+}
+
+const addProduct = async (req: Request, res: Response) => {
+  try {
+    const data = req.body
+    const { userId: id } = req.params
+
+    // call service functions to send data
+    await UserServices.addProductInOrderDB(data, Number(id))
+
+    //sending response
+    res.status(200).json({
+      success: true,
+      message: "Order created successfully!",
+      data: null,
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error: {
+        code: 500,
+        description: 'Something went wrong!',
+      },
+    })
+  }
+}
+
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params
@@ -103,5 +158,7 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getSinglelUsers,
+  updateUser,
+  addProduct,
   deleteUser,
 }
