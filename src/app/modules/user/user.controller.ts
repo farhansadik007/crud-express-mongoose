@@ -4,14 +4,13 @@ import userValidationSchema from './user.validation'
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body
-    const zodData = userValidationSchema.parse(userData)
+    const zodData = userValidationSchema.parse(req.body)
 
     // call service functions to send data
     const result = await UserServices.createUserIntoDB(zodData)
 
     //eslint-disable-next-line 
-    const {_id, password, hobbies, orders, isActive, isDeleted,...rest} = result._doc;
+    const {_id, password, hobbies, orders, isDeleted,...rest} = result?.toObject() || {};
     //sending response
     res.status(200).json({
       success: true,
@@ -78,7 +77,7 @@ const totalPrice = async (req: Request, res: Response) => {
   try {
     const result = await UserServices.getOrdersFromDB()
 
-    const total = result[0]?.orders.reduce((acc, order) => {
+    const total = (result[0]?.orders ?? []).reduce((acc, order) => {
       return acc + order.price * order.quantity;
     }, 0);
 
@@ -136,7 +135,7 @@ const updateUser = async (req: Request, res: Response) => {
     const result = await UserServices.updateSingleUserFromDB(userData, Number(id))
 
     //eslint-disable-next-line 
-    const {_id, userId, password, hobbies, orders, isActive, isDeleted,...rest} = result._doc;
+    const {_id, userId, password, hobbies, orders, isActive, isDeleted,...rest} = result?.toObject() || {};
     /* eslint-enable no-var */
     //sending response
     res.status(200).json({

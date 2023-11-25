@@ -36,7 +36,7 @@ const updateSingleUserFromDB = async (user: IUser, userId: number) => {
   return result
 }
 
-const addProductInOrderDB = async (user, userId: number) => {
+const addProductInOrderDB = async (user: any, userId: number) => {
   const userInstace = new User({ userId })
   const userExists = userInstace.isUserExists(userId)
   if (!userExists) return null
