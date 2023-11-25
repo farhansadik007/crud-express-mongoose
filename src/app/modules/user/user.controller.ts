@@ -84,7 +84,9 @@ const totalPrice = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Total price calculated successfully!",
-      data: total,
+      data: {
+        "totalPrice": total
+      },
     })
   } catch (error) {
     res.status(500).json({
