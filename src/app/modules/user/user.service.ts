@@ -23,7 +23,7 @@ const getSingleUsersFromDB = async (userId: number) => {
 
   if (!userExists) return null
 
-  const result = await User.findOne({ userId }).select('-password -orders')
+  const result = await User.findOne({ userId }).select('-_id -password -orders -isDeleted -__v')
   return result
 }
 

@@ -10,11 +10,13 @@ const createUser = async (req: Request, res: Response) => {
     // call service functions to send data
     const result = await UserServices.createUserIntoDB(zodData)
 
+    //eslint-disable-next-line 
+    const {_id, password, hobbies, orders, isActive, isDeleted,...rest} = result._doc;
     //sending response
     res.status(200).json({
       success: true,
       message: 'User created successfully!',
-      data: result,
+      data: rest,
     })
   } catch (err) {
     res.status(500).json({
@@ -58,7 +60,7 @@ const getOrders = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Order fetched successfully!",
-      data: result,
+      data: result[0],
     })
   } catch (error) {
     res.status(500).json({
@@ -190,7 +192,7 @@ const deleteUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'User deleted successfully!',
-        data: result,
+        data: null,
       })
     } else throw new Error()
   } catch (error) {
