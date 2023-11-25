@@ -9,6 +9,9 @@ router.post('/', UserControllers.createUser)
 // get all users
 router.get('/', UserControllers.getAllUsers)
 
+// retrive
+router.get('/:userId/orders', UserControllers.getOrders)
+
 // get single user
 router.get('/:userId', UserControllers.getSinglelUsers)
 

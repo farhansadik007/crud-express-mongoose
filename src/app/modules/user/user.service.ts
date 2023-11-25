@@ -12,6 +12,11 @@ const getAllUsersFromDB = async () => {
   return result
 }
 
+const getOrdersFromDB = async () => {
+  const result = await User.find().select('orders')
+  return result
+}
+
 const getSingleUsersFromDB = async (userId: number) => {
   const userInstance = new User({ userId })
   const userExists = userInstance.isUserExists(userId)
@@ -24,22 +29,22 @@ const getSingleUsersFromDB = async (userId: number) => {
 
 const updateSingleUserFromDB = async (user: IUser, userId: number) => {
   const userInstace = new User({ userId })
-  const userExists =  userInstace.isUserExists(userId);
-  if(!userExists) return null
+  const userExists = userInstace.isUserExists(userId)
+  if (!userExists) return null
 
-  const result = await User.findOneAndUpdate({userId}, user)
-  return result;
+  const result = await User.findOneAndUpdate({ userId }, user)
+  return result
 }
 
 const addProductInOrderDB = async (user, userId: number) => {
   const userInstace = new User({ userId })
-  const userExists =  userInstace.isUserExists(userId);
-  if(!userExists) return null
+  const userExists = userInstace.isUserExists(userId)
+  if (!userExists) return null
 
-  const result = await User.findOne({userId})
-  result?.orders?.push(user);
-  await result?.save();
-  return result;
+  const result = await User.findOne({ userId })
+  result?.orders?.push(user)
+  await result?.save()
+  return result
 }
 
 const deleteUserFromDB = async (userId: number) => {
@@ -55,6 +60,7 @@ const deleteUserFromDB = async (userId: number) => {
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
+  getOrdersFromDB,
   getSingleUsersFromDB,
   updateSingleUserFromDB,
   addProductInOrderDB,

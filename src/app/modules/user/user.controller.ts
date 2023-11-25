@@ -50,6 +50,28 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 }
 
+const getOrders = async (req: Request, res: Response) => {
+  try {
+    const result = await UserServices.getOrdersFromDB()
+
+    //sending response
+    res.status(200).json({
+      success: true,
+      message: "Order fetched successfully!",
+      data: result,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'No Order found!',
+      error: {
+        code: 500,
+        description: 'No Order found!',
+      },
+    })
+  }
+}
+
 const getSinglelUsers = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params
@@ -157,6 +179,7 @@ const deleteUser = async (req: Request, res: Response) => {
 export const UserControllers = {
   createUser,
   getAllUsers,
+  getOrders,
   getSinglelUsers,
   updateUser,
   addProduct,

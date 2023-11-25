@@ -60,7 +60,6 @@ const userSchema = new Schema<IUser, UserModel, UserMethods>({
   isDeleted: { type: Boolean, default: false },
 })
 
-
 //hashing password
 userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(
